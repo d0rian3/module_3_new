@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content %} {% for product in products %}
+<style>
+  a {
+    padding: 5px 10px;
+    background: #4caf50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  a:hover {
+    background: #45a049;
+  }
+  .cardWrapper {
+    --background: linear-gradient(to right, #13b37f 0%, #11a3c8 100%);
+    margin-top: 20px;
+    width: 300px;
+    padding: 20px 30px;
+    border-radius: 0.7rem;
+    overflow: visible;
+    background: #f7ba2b;
+    background: var(--background);
+    position: relative;
+    z-index: 1;
+    color: black;
+    border: 2px solid black;
+  }
+</style>
+
+<div class="cardWrapper">
+  <h2>{{ product.title }}</h2>
+  <h4>{{ product.description }}</h4>
+  <p><b>Цена:</b>{{ product.price }}</p>
+  <p><b>Количество:</b> {{ product.count }}</p>
+  {% if user.is_authenticated %}
+  <form method="post">
+    {%csrf_token%}
+    <input type="hidden" name="product_id" value="{{ product.id }}" />
+    <label for="quantity_{{ product.id }}">Количество:</label>
+    <input
+      type="number"
+      name="quantity"
+      min="1"
+      max="{{ product.count }}"
+      required
+    />
+    <button type="submit">Купить</button>
+  </form>
+  {% else %}
+  <span>Wanna buy? <a href="{% url 'register' %}">Sign Up</a></span>
+
+  {% endif %}
+</div>
+
+{% endfor %} {% endblock %}
