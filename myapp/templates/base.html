@@ -15,18 +15,7 @@
     }
   </style>
   <body style="font-family: sans-serif">
-    <nav>
-      {% if user.is_authenticated %}
-      <div>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <input type="submit" value="Logout" />
-        </form>
-        <p>Hello, {{ user.username }}</p>
-        <p>💰 На балансе: {{ user.wallet }}</p>
-      </div>
-      {% endif %}
-    </nav>
+    <nav>{%block nav%}{%endblock%}</nav>
     <div class="fatherDiv">{% block content %} {% endblock %}</div>
   </body>
 </html>

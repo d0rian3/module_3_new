@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {%block nav%}
+<style>
+  .navList {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    li {
+      list-style: none;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
+    li:hover {
+      cursor: pointer;
+      color: beige;
+      text-decoration: underline;
+    }
+    li:first-child {
+      color: inherit;
+      text-decoration: none;
+    }
+    li:last-child,
+    input {
+      padding: 5px 10px;
+      background: #4caf50;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      text-decoration: none;
+    }
+  }
+</style>
+<ul class="navList">
+  <li><h1>Привет, Админ! Это твой рабочий кабинет</h1></li>
+  <li><a href="{% url 'admin_create_product' %}">Создать новый товар 🌬️</a></li>
+  <li><a href="{% url 'admin_update_product' %}">Редактировать товар 🪄</a></li>
+
+  <li>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Logout" />
+    </form>
+  </li>
+</ul>
+{%endblock%} {% block content %} {% endblock %}

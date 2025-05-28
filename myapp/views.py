@@ -11,17 +11,12 @@ from .models import User
 from django.db import transaction
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .forms import ProductForm
+from django.http import HttpResponseForbidden
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
-
-class ProductListView(ListView):
-    model = Product
-    template_name = 'product_list.html'
-    login_url = 'login/'
-    context_object_name = 'products'
  
 class Login(LoginView):
     success_url = '/'
@@ -45,6 +40,7 @@ class Logout(LoginRequiredMixin, LogoutView):
 class ProductListView(ListView):
     model = Product
     template_name = 'product_list.html'
+    login_url = 'login/'
     context_object_name = 'products'
     
     def post(self, request, *args, **kwargs):
@@ -82,4 +78,57 @@ class ProductListView(ListView):
         
         messages.success(request, f"Успешно оплачено {quantity} x {product.title}")
         return redirect('product_list')
+    
+class AdminLoginView(LoginView):
+    template_name = 'admin/admin_login.html'
+    redirect_authenticated_user = False
+    success_url = '/admin/product-list/'
 
+    def get_success_url(self):
+            return '/admin/product-list/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                return redirect('/admin/product-list/')
+            else:
+                return HttpResponseForbidden("Доступ только для админов.")
+        return super().dispatch(request, *args, **kwargs)
+    
+class AdminProductListView(LoginRequiredMixin,UserPassesTestMixin, ListView):
+    model = Product
+    template_name = 'admin/product_list.html'
+    context_object_name = 'products'
+    login_url = 'admin-login/'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+class CreateProductAdmin(CreateView):
+    model = Product
+    template_name = 'admin/create_product.html'
+    context_object_name = 'products'
+    form_class = ProductForm
+    success_url = '/admin/product-list/'
+
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)
+        return self.form_invalid(form)
+
+class UpdateProductAdmin(UpdateView):
+    model = Product
+    template_name = 'admin/update_product.html'
+    context_object_name = 'products'
+
+class RefundProductAdmin(UpdateView):
+    model = Product
+    template_name = 'admin/refund_list.html'
+    context_object_name = 'products'
+ 
+
+
+    
