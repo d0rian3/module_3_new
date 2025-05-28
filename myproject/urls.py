@@ -10,6 +10,6 @@ urlpatterns = [
     path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
     path('admin/product-list/', AdminProductListView.as_view(), name='admin_product_list'),
     path('admin/create-product/',CreateProductAdmin.as_view(), name='admin_create_product'),
-    path('admin/update-product/',UpdateProductAdmin.as_view(), name='admin_update_product'),
+    path('admin/update-product/<int:pk>/', UpdateProductAdmin.as_view(), name='admin_update_product'),
     path('admin/refund-product/',RefundProductAdmin.as_view(), name='admin_refund_product')
 ]

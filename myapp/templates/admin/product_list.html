@@ -33,11 +33,39 @@
       text-decoration: none;
     }
   }
+  .product-card {
+    --background: linear-gradient(to right, #13b37f 0%, #11a3c8 100%);
+    margin-top: 20px;
+    width: 200px;
+
+    padding: 20px 30px;
+    border-radius: 0.7rem;
+    overflow: visible;
+    background: #f7ba2b;
+    background: var(--background);
+    position: relative;
+    z-index: 1;
+    color: black;
+    border: 2px solid black;
+    a {
+      padding: 5px 10px;
+      background: #4caf50;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    a:hover {
+      background: #45a049;
+    }
+  }
 </style>
 <ul class="navList">
   <li><h1>Привет, Админ! Это твой рабочий кабинет</h1></li>
   <li><a href="{% url 'admin_create_product' %}">Создать новый товар 🌬️</a></li>
-  <li><a href="{% url 'admin_update_product' %}">Редактировать товар 🪄</a></li>
 
   <li>
     <form action="{% url 'logout' %}" method="post">
@@ -46,4 +74,11 @@
     </form>
   </li>
 </ul>
-{%endblock%} {% block content %} {% endblock %}
+{%endblock%} {% block content %}{% for product in products %}
+<div class="product-card">
+  <h3>{{ product.title }}</h3>
+  <p>{{ product.description }}</p>
+  <p>Цена: {{ product.price }} | Кол-во: {{ product.count }}</p>
+  <a href="{% url 'admin_update_product' product.pk %}">Редактировать 🛠️</a>
+</div>
+{% endfor %} {% endblock %}

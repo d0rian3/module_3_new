@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import ListView, CreateView, UpdateView
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from .models import User
 from django.db import transaction
@@ -17,13 +17,13 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
- 
+
 class Login(LoginView):
     success_url = '/'
     template_name = 'login.html'
     def get_success_url(self):
         return self.success_url
-    
+  
 
 class Register(CreateView):
     form_class = CustomUserCreationForm
@@ -123,12 +123,11 @@ class UpdateProductAdmin(UpdateView):
     model = Product
     template_name = 'admin/update_product.html'
     context_object_name = 'products'
+    success_url = '/admin/product-list/'
+    form_class = ProductForm
+
 
 class RefundProductAdmin(UpdateView):
     model = Product
     template_name = 'admin/refund_list.html'
     context_object_name = 'products'
- 
-
-
-    
