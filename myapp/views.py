@@ -4,13 +4,15 @@ from .models import Product, Purchase, Refund
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView,DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from .models import User
 from django.db import transaction
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.urls import reverse_lazy
 from .forms import ProductForm
+from django.db.models import F, ExpressionWrapper, DecimalField
 from django.http import HttpResponseForbidden
 
 class CustomUserCreationForm(UserCreationForm):
@@ -33,9 +35,6 @@ class Register(CreateView):
 class Logout(LoginRequiredMixin, LogoutView):
     next_page = '/'
     login_url = 'login/'
-
-
-
 
 class ProductListView(ListView):
     model = Product
@@ -79,6 +78,19 @@ class ProductListView(ListView):
         messages.success(request, f"Успешно оплачено {quantity} x {product.title}")
         return redirect('product_list')
     
+class PurchaseList(ListView):
+    model = Purchase
+    template_name = 'purchase_list.html'
+    context_object_name = 'purchases'
+
+    def get_queryset(self):
+        return Purchase.objects.filter(user=self.request.user).annotate(
+            total_price = ExpressionWrapper(F('quantity') * F('product__price'),
+                                            output_field=DecimalField(max_digits=20, decimal_places=2)
+                                            )
+                                            )
+    
+
 class AdminLoginView(LoginView):
     template_name = 'admin/admin_login.html'
     redirect_authenticated_user = False
@@ -131,3 +143,8 @@ class RefundProductAdmin(UpdateView):
     model = Product
     template_name = 'admin/refund_list.html'
     context_object_name = 'products'
+
+class DeleteProductAdmin(DeleteView):
+    model = Product
+    template_name = 'admin/product_list.html'
+    success_url = reverse_lazy('admin_product_list')

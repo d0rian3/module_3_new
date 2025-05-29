@@ -8,6 +8,9 @@
     body {
       background-color: #1a1a1a;
       color: aliceblue;
+
+      position: relative;
+      font-family: sans-serif;
     }
     .fatherDiv {
       display: flex;
@@ -17,6 +20,7 @@
   </style>
   <body style="font-family: sans-serif">
     <nav>{%block nav%}{%endblock%}</nav>
+
     <div class="fatherDiv">{% block content %} {% endblock %}</div>
   </body>
 </html>
