@@ -1,20 +1,24 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
+    <title>MacStore</title>
+    <link
+      rel="icon"
+      href="{% static 'myapp/image.png' %}"
+      type="image/x-icon"
+    />
   </head>
   <style>
     body {
       background-color: #1a1a1a;
       color: aliceblue;
-
-      position: relative;
       font-family: sans-serif;
     }
     .fatherDiv {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       flex-wrap: wrap;
     }
   </style>

@@ -104,11 +104,15 @@
   a:hover {
     background-color: rgb(70, 114, 150);
   }
+  .fatherDiv {
+    flex-direction: row;
+    justify-content: center;
+  }
 </style>
 <ul class="navList">
   <li><h1>Привет, Админ! Это твой рабочий кабинет</h1></li>
   <li><a href="{% url 'admin_create_product' %}">Создать новый товар 🌬️</a></li>
-
+  <li><a href="{% url 'admin_refund_product' %}">Товары на возврат 💸</a></li>
   <li>
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}

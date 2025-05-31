@@ -4,18 +4,23 @@
     text-decoration: none;
     color: white;
   }
-  .regForm {
-    display: flex;
-    flex-direction: column;
+  form {
+    margin-top: 20px;
+    padding: 20px;
+    background: #2c2c2c;
+    border-radius: 10px;
+    max-width: 400px;
   }
-  .usernameInput,
-  .passInput {
-    display: flex;
-    flex-direction: column;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
   }
+
   input[type="text"],
   input[type="password"] {
-    width: 200px;
+    width: 100%;
     padding: 8px;
     margin-bottom: 15px;
     border: 1px solid #555;
@@ -23,6 +28,7 @@
     background: #333;
     color: white;
   }
+
   input[type="submit"] {
     padding: 10px 20px;
     background: #4caf50;
@@ -35,6 +41,7 @@
   input[type="submit"]:hover {
     background: #45a049;
   }
+
   .errorlist {
     color: #ff5c5c;
     margin-bottom: 10px;

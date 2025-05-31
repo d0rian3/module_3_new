@@ -139,7 +139,7 @@ class UpdateProductAdmin(UpdateView):
     form_class = ProductForm
 
 
-class RefundProductAdmin(UpdateView):
+class RefundProductAdmin(ListView):
     model = Product
     template_name = 'admin/refund_list.html'
     context_object_name = 'products'
