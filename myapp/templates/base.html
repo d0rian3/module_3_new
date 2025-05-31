@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MacStore</title>
+    <link
+      rel="icon"
+      href="{% static 'myapp/image.png' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: aliceblue;
+      font-family: sans-serif;
+    }
+    .fatherDiv {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+    }
+  </style>
+  <body style="font-family: sans-serif">
+    <nav>{%block nav%}{%endblock%}</nav>
+
+    <div class="fatherDiv">{% block content %} {% endblock %}</div>
+  </body>
+</html>

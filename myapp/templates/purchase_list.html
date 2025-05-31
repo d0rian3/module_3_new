@@ -1,0 +1,86 @@
+{% extends 'base.html' %} {%block nav%}
+<h2 style="margin-top: 20px">🛒 Мои покупки</h2>
+{%endblock%} {% block content %}
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 260px;
+    padding: 20px 1px;
+    margin: 15px 10px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(33, 150, 243, 0.4),
+      0 4px 6px -4px rgba(33, 150, 243, 0.4);
+    border-radius: 10px;
+    background-color: #6b6ecc;
+    background: linear-gradient(45deg, #04051dea 0%, #2b566e 100%);
+  }
+
+  .content {
+    padding: 20px;
+  }
+  .content .price {
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.42);
+  }
+
+  .content .description {
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .content .title {
+    font-weight: 800;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.64);
+    margin-top: 10px;
+    font-size: 25px;
+    letter-spacing: 1px;
+  }
+  .refButton {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: none;
+    outline: none;
+    color: rgb(255 255 255);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background-color: rgb(33 150 243);
+    border-radius: 0.5rem;
+    width: 60%;
+    text-shadow: 0px 4px 18px #2c3442;
+    cursor: pointer;
+  }
+  .fatherDiv {
+    flex-direction: row;
+    justify-content: center;
+  }
+</style>
+
+{% if purchases %} {% for purchase in purchases %}
+<div class="card">
+  <div class="content">
+    <h2 class="title">{{ purchase.product.title }}</h2>
+    <p><b>Количество:</b> {{ purchase.quantity }}</p>
+    <p><b>Цена за штуку:</b> {{ purchase.product.price }}$</p>
+    <p class="price"><b>Итого:</b> {{purchase.total_price}}$</p>
+    <p><b>Дата покупки:</b> {{ purchase.created_at|date:"d.m.Y H:i" }}</p>
+    <form method="post">
+      {%csrf_token%}
+      <input type="hidden" name="purchase_id" value="{{purchase.id}}" />
+      <button type="submit" class="refButton">Вернуть</button>
+    </form>
+  </div>
+</div>
+{% endfor %} {% else %}
+<p style="margin-top: 20px">Вы пока ничего не купили.</p>
+{% endif %} {% endblock %}

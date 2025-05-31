@@ -1,0 +1,136 @@
+{% extends 'base.html' %} {%block nav%}
+<style>
+  .navList {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    li {
+      list-style: none;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
+    li:hover {
+      cursor: pointer;
+      color: beige;
+      text-decoration: underline;
+    }
+    li:first-child {
+      color: inherit;
+      text-decoration: none;
+    }
+    li:last-child,
+    input {
+      padding: 5px 10px;
+      background-color: rgb(19, 72, 116);
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      text-decoration: none;
+    }
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 260px;
+    padding: 20px 1px;
+    margin: 15px 10px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(33, 150, 243, 0.4),
+      0 4px 6px -4px rgba(33, 150, 243, 0.4);
+    border-radius: 10px;
+    background-color: #6b6ecc;
+    background: linear-gradient(45deg, #04051dea 0%, #2b566e 100%);
+  }
+
+  .content {
+    padding: 20px;
+  }
+  .content .price {
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.42);
+  }
+
+  .content .description {
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .content .title {
+    font-weight: 800;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.64);
+    margin-top: 10px;
+    font-size: 25px;
+    letter-spacing: 1px;
+  }
+
+  .deleteProduct,
+  a {
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: none;
+    outline: none;
+    color: rgb(255 255 255);
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 0.35rem 0.5rem;
+    background-color: rgb(19, 72, 116);
+    border-radius: 0.5rem;
+    width: 50%;
+    text-shadow: 0px 4px 18px #2c3442;
+    cursor: pointer;
+    transition: 200ms;
+  }
+  .deleteProduct {
+    margin-top: 15px;
+  }
+  .deleteProduct:hover,
+  a:hover {
+    background-color: rgb(70, 114, 150);
+  }
+  .fatherDiv {
+    flex-direction: row;
+    justify-content: center;
+  }
+</style>
+<ul class="navList">
+  <li><h1>Привет, Админ! Это твой рабочий кабинет</h1></li>
+  <li><a href="{% url 'admin_create_product' %}">Создать новый товар 🌬️</a></li>
+  <li><a href="{% url 'admin_refund_product' %}">Товары на возврат 💸</a></li>
+  <li>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Logout" />
+    </form>
+  </li>
+</ul>
+{%endblock%} {% block content %}{% for product in products %}
+<div class="card">
+  <div class="content">
+    <h3 class="title">{{ product.title }}</h3>
+    <p class="price">Цена: {{ product.price }} | Кол-во: {{ product.count }}</p>
+    <p class="description">{{ product.description }}</p>
+    <a href="{% url 'admin_update_product' product.pk %}">Редактировать 🛠️</a>
+    <form method="post" action="{% url 'admin_delete_product' product.pk %}">
+      {% csrf_token %}
+      <button type="submit" class="deleteProduct">Удалить 🗑️</button>
+    </form>
+  </div>
+</div>
+{% endfor %} {% endblock %}

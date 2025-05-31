@@ -1,0 +1,73 @@
+{% extends 'base.html' %} {% block nav %} {% endblock %} {% block content %}
+<style>
+  .login-wrapper {
+    background-color: #2c2c2c;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-wrapper h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+
+  .login-wrapper label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #ccc;
+  }
+
+  .login-wrapper input[type="text"],
+  .login-wrapper input[type="password"] {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #444;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .login-wrapper input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .login-wrapper input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  .login-wrapper .errorlist {
+    color: #ff4d4d;
+    margin-bottom: 12px;
+    list-style-type: none;
+    padding-left: 0;
+  }
+</style>
+
+<div class="login-wrapper">
+  <h2>Вход для администратора</h2>
+  <form method="post">
+    {% csrf_token %} {{ form.non_field_errors }}
+    <label for="{{ form.username.id_for_label }}">Логин</label>
+    {{ form.username }}
+    <label for="{{ form.password.id_for_label }}">Пароль</label>
+    {{ form.password }}
+    <input type="submit" value="Войти" />
+  </form>
+</div>
+{% endblock %}

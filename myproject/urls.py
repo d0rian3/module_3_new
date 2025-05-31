@@ -1,22 +1,18 @@
-"""
-URL configuration for myproject project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
 from django.urls import path
+from myapp.views import ProductListView, Login, Logout, Register,AdminProductListView,AdminLoginView,CreateProductAdmin,UpdateProductAdmin,RefundProductAdmin,PurchaseList,DeleteProductAdmin
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', ProductListView.as_view(), name='product_list'),
+    path('login/', Login.as_view(), name='login'),
+    path('register/', Register.as_view(), name='register'),
+    path('logout/', Logout.as_view(), name='logout'),
+    path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
+    path('admin/product-list/', AdminProductListView.as_view(), name='admin_product_list'),
+    path('admin/create-product/',CreateProductAdmin.as_view(), name='admin_create_product'),
+    path('admin/update-product/<int:pk>/', UpdateProductAdmin.as_view(), name='admin_update_product'),
+    path('admin/refund-product/',RefundProductAdmin.as_view(), name='admin_refund_product'),
+    path('purchase_lists', PurchaseList.as_view(), name='purchase_lists'),
+    path('admin/product-delete/<int:pk>/', DeleteProductAdmin.as_view(), name='admin_delete_product'),
+    
 ]

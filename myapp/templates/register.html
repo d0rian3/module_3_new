@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  form {
+    margin-top: 20px;
+    padding: 20px;
+    background: #2c2c2c;
+    border-radius: 10px;
+    max-width: 400px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+  }
+
+  input[type="submit"] {
+    padding: 10px 20px;
+    background: #4caf50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background: #45a049;
+  }
+
+  .errorlist {
+    color: #ff5c5c;
+    margin-bottom: 10px;
+  }
+</style>
+<span>Already has account? <a href="{% url 'login' %}">Login</a></span>
+
+<form method="post" class="regForm">
+  {% csrf_token %}
+
+  <div class="usernameInput">
+    <label for="{{ form.username.id_for_label }}">Username:</label>
+    {{ form.username }} {{ form.username.errors }}
+  </div>
+
+  <div class="passInput">
+    <label for="{{ form.password1.id_for_label }}">Password:</label>
+    {{ form.password1 }} {{ form.password1.errors }}
+  </div>
+
+  <div class="passInput">
+    <label for="{{ form.password2.id_for_label }}"
+      >Password confirmation:</label
+    >
+    {{ form.password2 }} {{ form.password2.errors }}
+  </div>
+
+  <input type="submit" value="Register" />
+</form>
+
+{% endblock %}
